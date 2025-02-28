@@ -7,10 +7,47 @@
     <title>Scoundrel Web Game</title>
   </head>
   <body>
-    <div id="header"></div>
-    <div id="room-line"></div>
-    <div id="stats-line"></div>
-    <div id="footer"></div>
+    <!-- Header -->
+    <div id="header" class="grid-layout">
+      <h1>Scoundrel</h1>
+    </div>
+    <!-- Room Line -->
+    <div id="dungeon" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/red_joker.png" alt="Deck of cards" />
+    </div>
+    <div id="room-1" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/7_of_hearts.png" alt="7 of hearts" />
+    </div>
+    <div id="room-2" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/3_of_diamonds.png" alt="3 of diamonds" />
+    </div>
+    <div id="room-3" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/8_of_spades.png" alt="8 of spades" />
+    </div>
+    <div id="room-4" class="grid-layout">
+      <img
+        src="./images/PNG-cards-1.3/king_of_clubs2.png"
+        alt="King of clubs"
+      />
+    </div>
+    <div id="discard" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/black_joker.png" alt="Discard pile" />
+    </div>
+    <!-- Stats/Player Line -->
+    <div id="reset" class="grid-layout">
+      <p>Reset Game</p>
+    </div>
+    <div id="weapon" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/black_joker.png" alt="weapon: unarmed" />
+    </div>
+    <div id="health" class="grid-layout">
+      <img src="./images/PNG-cards-1.3/red_joker.png" alt="health: full" />
+    </div>
+    <div id="flee" class="grid-layout">
+      <p>Flee Room</p>
+    </div>
+    <!-- Footer -->
+    <div id="footer" class="grid-layout"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./index.js" charset="UTF-8"></script>
   </body>
