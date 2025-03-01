@@ -10,9 +10,18 @@ $("#reset").on("click",function () {
 })
 
 function resetGame () {
+    //Reset dungeon
     dungeonDeck = [];
     shuffleDeck();
-    fullyPopulateRoom(); 
+
+    //Initial room layout
+    fullyPopulateRoom();
+
+    //Reset fled tracker
+    fledTwice = false; 
+
+    //Reset health to full
+    $("#health-img").attr("src","./images/Health/20health.png");
 }
 
 // Sets up initial dungeon/deck array (not randomized). //
@@ -56,50 +65,71 @@ function checkRoomOpenings () {
     }
 }
 
-function refillRoom () { //need to figure out dragging cards before can finish the partial room reloads.
+function refillRoom () { //need to figure out dragging cards triggering this before can fully finish the partial room reloads.
     switch (checkRoomOpenings()) {
         case 1:
-            partiallyPopulateRoom(2, 3, 4);
+            // partiallyPopulateRoom(2, 3, 4);
+            room2 = dungeonDeck.shift();
+            room3 = dungeonDeck.shift();
+            room4 = dungeonDeck.shift();
             break;
             
         case 2:
-            partiallyPopulateRoom(1, 3, 4);
+            // partiallyPopulateRoom(1, 3, 4);
+            room1 = dungeonDeck.shift();
+            room3 = dungeonDeck.shift();
+            room4 = dungeonDeck.shift();
             break;
     
         case 3:
-            partiallyPopulateRoom(1, 2, 4);
+            // partiallyPopulateRoom(1, 2, 4);
+            room1 = dungeonDeck.shift();
+            room2 = dungeonDeck.shift();
+            room4 = dungeonDeck.shift();
             break;
     
         case 4:
-            partiallyPopulateRoom(1, 2, 3);
+            // partiallyPopulateRoom(1, 2, 3);
+            room1 = dungeonDeck.shift();
+            room2 = dungeonDeck.shift();
+            room3 = dungeonDeck.shift();
             break;
 
         default: console.log ("refillRoom function broken");
     }
+
+    changeRoomImgs();
+    updateDungeonCount();
+    fledTwice = false;
+
+    console.log(room1);
+    console.log(room2);
+    console.log(room3);
+    console.log(room4);
+    console.log(dungeonDeck);
 }
 
-function partiallyPopulateRoom(fillRoom1, fillRoom2, fillRoom3) { //messed up but close to what i need. fillRoom is a # value that needs to add onto "room" to determine variable change.
-    roomfillRoom1 = dungeonDeck.shift();
-    room = dungeonDeck.shift();
-    room  = dungeonDeck.shift();
-    console.log(room);
-    console.log(room);
-    console.log(room);
-    console.log(dungeonDeck);
-    fledTwice = false;
-}
+// function partiallyPopulateRoom(fillRoom1, fillRoom2, fillRoom3) { //messed up but close to what i need. fillRoom is a # value that needs to add onto "room" to determine variable change.
+//     // fillRoom1 = dungeonDeck.shift();
+//     // fillRoom2 = dungeonDeck.shift();
+//     // fillRoom3  = dungeonDeck.shift();
+// }
 
 function fullyPopulateRoom() {
     room1 = dungeonDeck.shift();
-    console.log(room1);
     room2 = dungeonDeck.shift();
-    console.log(room2);
     room3 = dungeonDeck.shift();
-    console.log(room3);
     room4 = dungeonDeck.shift();
+   
+    changeRoomImgs();
+    updateDungeonCount();
+
+    console.log(room1);
+    console.log(room2);
+    console.log(room3);
     console.log(room4);
     console.log(dungeonDeck);
-    changeRoomImgs();
+    
 }
 
 function changeRoomImgs () {
@@ -117,12 +147,28 @@ function changeRoomImgs () {
 let fledTwice = false;
 
 $("#flee").on("click", function flee () {
-    if (fledTwice == false) {
+    if (fledTwice == false && room1 > 0 && room2 > 0 && room3 > 0 && room4 > 0) {
+        //Push them back into the dungeonDeck Array on the end.
+        dungeonDeck.push(room1);
+        dungeonDeck.push(room2);
+        dungeonDeck.push(room3);
+        dungeonDeck.push(room4);
+
         fullyPopulateRoom();
         fledTwice = true;
+
         //Add line that changes css for visual indicator. Maybe text turns red or button fades or X'd out.
     } 
     else if (fledTwice == true) {
-        alert("Fled too recently. Clear a room first to be able to flee again.");
-    }  
+        alert("Can't flee twice in a row. Clear a room to be able to flee again.");
+    } 
+    else {
+        alert("Can't flee from a room you've interacted with.");
+    } 
 })
+
+//Display cards left in dungeon/deck
+
+function updateDungeonCount () {
+    $("#deck-txt").text(dungeonDeck.length + "/44");
+}

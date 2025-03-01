@@ -115,3 +115,17 @@ h1 {
     transform: translate(-50%, -80%);
     color: white;
 }
+
+/* Dungeon/deck card count */
+
+#deck-txt {
+    visibility: hidden;
+    font-size: 2.5rem;
+    color: red;
+}
+
+#dungeon:hover {
+    #deck-txt {
+        visibility: visible;
+    }
+}
