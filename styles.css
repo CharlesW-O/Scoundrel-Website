@@ -8,7 +8,7 @@ body {
     grid-template-rows: 10rem 1fr 1fr 5rem;
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr;
     gap: 1rem;
-    /* align-items: center; */
+    font-family: "Pixelify Sans", sans-serif;
 }
 
 /* Layout */
@@ -66,6 +66,11 @@ div {
     border-radius: 20%;
 }
 
+#reset:hover {
+    cursor: pointer;
+    background-color: rgb(110, 109, 109);
+}
+
 #weapon {
     grid-area: 3 / 3 / 4 / 4;
 }
@@ -86,13 +91,27 @@ div {
 
 p {
     text-align: center;
-    color: lightgray;
+    color: white;
     padding: 1rem;
 }
 
 /* Styling */
 
 h1 {
-    color: lightgray;
+    color: white;
     font-size: 5rem;
+    font-weight: 800;
+}
+
+.text-over-img {
+    position: relative;
+    text-align: center;
+}
+
+.centered-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -80%);
+    color: white;
 }
