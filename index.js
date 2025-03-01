@@ -1,5 +1,5 @@
 
-//Resets game state - need to add to as keep coding (for health etc). //
+//Resets game state - need to add to as keep coding (for health etc).//
 window.onload = function() {
     resetGame();
 }
@@ -41,7 +41,22 @@ let room2 = 2;
 let room3 = 3;
 let room4 = 4;
 
-function refillRoom () {
+function checkRoomOpenings () {
+    if (room1 > 0) {
+        return 1;
+    }
+    if (room2 > 0) {
+        return 2;
+    }
+    if (room3 > 0) {
+        return 3;
+    }
+    if (room4 > 0) {
+        return 4;
+    }
+}
+
+function refillRoom () { //need to figure out dragging cards before can finish the partial room reloads.
     switch (checkRoomOpenings()) {
         case 1:
             partiallyPopulateRoom(2, 3, 4);
@@ -63,19 +78,15 @@ function refillRoom () {
     }
 }
 
-function checkRoomOpenings () {
-    if (room1 > 0) {
-        return 1;
-    }
-    if (room2 > 0) {
-        return 2;
-    }
-    if (room3 > 0) {
-        return 3;
-    }
-    if (room4 > 0) {
-        return 4;
-    }
+function partiallyPopulateRoom(fillRoom1, fillRoom2, fillRoom3) { //messed up but close to what i need. fillRoom is a # value that needs to add onto "room" to determine variable change.
+    roomfillRoom1 = dungeonDeck.shift();
+    room = dungeonDeck.shift();
+    room  = dungeonDeck.shift();
+    console.log(room);
+    console.log(room);
+    console.log(room);
+    console.log(dungeonDeck);
+    fledTwice = false;
 }
 
 function fullyPopulateRoom() {
@@ -91,19 +102,27 @@ function fullyPopulateRoom() {
     changeRoomImgs();
 }
 
-function partiallyPopulateRoom(fillRoom1, fillRoom2, fillRoom3) {
-    roomfillRoom1 = dungeonDeck.shift();
-    room = dungeonDeck.shift();
-    room  = dungeonDeck.shift();
-    console.log(room);
-    console.log(room);
-    console.log(room);
-    console.log(dungeonDeck);
-}
-
 function changeRoomImgs () {
     $("#room-1-img").attr("src","./images/Temp Cards/" + room1 + ".png" );
     $("#room-2-img").attr("src","./images/Temp Cards/" + room2 + ".png" );
     $("#room-3-img").attr("src","./images/Temp Cards/" + room3 + ".png" );
     $("#room-4-img").attr("src","./images/Temp Cards/" + room4 + ".png" );
 }
+
+//Weapon Array
+
+//Discard Array
+
+//Flee Button
+let fledTwice = false;
+
+$("#flee").on("click", function flee () {
+    if (fledTwice == false) {
+        fullyPopulateRoom();
+        fledTwice = true;
+        //Add line that changes css for visual indicator. Maybe text turns red or button fades or X'd out.
+    } 
+    else if (fledTwice == true) {
+        alert("Fled too recently. Clear a room first to be able to flee again.");
+    }  
+})

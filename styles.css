@@ -66,7 +66,7 @@ div {
     border-radius: 20%;
 }
 
-#reset:hover {
+#reset:hover, #flee:hover {
     cursor: pointer;
     background-color: rgb(110, 109, 109);
 }
