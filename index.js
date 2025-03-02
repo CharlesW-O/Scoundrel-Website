@@ -101,6 +101,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     changeRoomImgs();
     updateDungeonCount();
     fledTwice = false;
+    $("#flee-btn").attr("src", "./images/FleecoinOntest.png");
 
     console.log(room1);
     console.log(room2);
@@ -153,17 +154,18 @@ $("#flee").on("click", function flee () {
         dungeonDeck.push(room2);
         dungeonDeck.push(room3);
         dungeonDeck.push(room4);
-
+        
+        $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
         fullyPopulateRoom();
         fledTwice = true;
 
-        //Add line that changes css for visual indicator. Maybe text turns red or button fades or X'd out.
     } 
     else if (fledTwice == true) {
         alert("Can't flee twice in a row. Clear a room to be able to flee again.");
     } 
     else {
         alert("Can't flee from a room you've interacted with.");
+        // Change img to the coin w/ X when this condition occurs. Prob have to do it in whatever funct triggers when a card is dragged out of the room.
     } 
 })
 

@@ -18,6 +18,10 @@ img {
     height: auto;
 }
 
+.coin-button-img {
+    width: 100%;
+}
+
 .grid-layout {
     display: flex;
 }
@@ -62,13 +66,13 @@ div {
 
 #reset {
     grid-area: 3 / 1 / 4 / 2;
-    background-color: rgb(97, 95, 95);
-    border-radius: 20%;
+    /* background-color: rgb(97, 95, 95);
+    border-radius: 20%; */
 }
 
 #reset:hover, #flee:hover {
     cursor: pointer;
-    background-color: rgb(110, 109, 109);
+    /* background-color: rgb(110, 109, 109); */
 }
 
 #weapon {
@@ -85,8 +89,8 @@ div {
 
 #flee {
     grid-area: 3 / 6 / 4 / 7;
-    background-color: rgb(97, 95, 95);
-    border-radius: 20%;
+    /* background-color: rgb(97, 95, 95);
+    border-radius: 20%; */
 }
 
 #footer {
@@ -118,6 +122,15 @@ h1 {
     left: 50%;
     transform: translate(-50%, -80%);
     color: white;
+}
+
+.coin-button-txt {
+    font-size: 1.4rem;
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* Dungeon/deck card count */
