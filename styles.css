@@ -146,3 +146,12 @@ h1 {
         visibility: visible;
     }
 }
+
+/* Dragging CSS */
+.dragging {
+    opacity: .5;
+}
+
+.drag-over {
+    border: 3px solid #FFD700;
+}

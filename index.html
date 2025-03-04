@@ -1,66 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Scoundrel Web Game</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
-  <title>Scoundrel Web Game</title>
-</head>
-
-<body>
-  <!-- Header -->
-  <div id="header" class="grid-layout">
-    <h1>SCOUNDREL</h1>
-  </div>
-  <!-- Room Line -->
-  <div id="dungeon" class="grid-layout text-over-img">
-    <img id="deck-img" src="./images/Cardback.png" alt="Deck of cards" />
-    <div id="deck-txt" class="centered-text">44/44</div>
-  </div>
-  <div id="room-1" class="grid-layout">
-    <img id="room-1-img" src="./images/Temp Cards/23.png" alt="2 of clubs" />
-  </div>
-  <div id="room-2" class="grid-layout">
-    <img id="room-2-img" src="./images/Temp Cards/8.png" alt="2 of clubs" />
-  </div>
-  <div id="room-3" class="grid-layout">
-    <img id="room-3-img" src="./images/Temp Cards/13.png" alt="2 of clubs" />
-  </div>
-  <div id="room-4" class="grid-layout">
-    <img id="room-4-img" src="./images/Temp Cards/44.png" alt="2 of clubs" />
-  </div>
-  <div id="discard" class="grid-layout">
-    <img src="./images/Temp Cards/0.png" alt="Discard pile" />
-  </div>
-  <!-- Stats/Player Line -->
-  <div id="reset" class="grid-layout text-over-img">
-    <img src="./images/RestartGametest.png" class="coin-button-img" alt="Restart Game">
-    <div id="reset-txt" class="coin-button-txt">Reset Game</div>
-  </div>
-  <div id="weapon" class="grid-layout">
-    <img src="./images/Unarmed.png" alt="weapon: unarmed" />
-  </div>
-  <div id="health" class="grid-layout text-over-img">
-    <img id="health-img" src="./images/Health/20health.png" alt="health: 20" />
-    <div id="health-txt" class="centered-text">20/20</div>
-  </div>
-  <div id="flee" class="grid-layout text-over-img">
-    <img id="flee-btn" src="./images/FleecoinOntest.png" class="coin-button-img" alt="Flee Room">
-    <div id="flee-txt" class="coin-button-txt">Flee Room</div>
-  </div>
-  <!-- Footer -->
-  <div id="footer" class="grid-layout">
-    <p>
-      Original Game by: Zach Gage & Kurt Bieg <br />
-      Website & Art by: Charles Wehner-Ortega
-    </p>
-  </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="./index.js" charset="UTF-8"></script>
-</body>
-
+  <body>
+    <!-- Header -->
+    <div id="header" class="grid-layout">
+      <h1>SCOUNDREL</h1>
+    </div>
+    <!-- Room Line -->
+    <div id="dungeon" class="grid-layout text-over-img">
+      <img id="deck-img" src="./images/Cardback.png" alt="Deck of cards" />
+      <div id="deck-txt" class="centered-text">44/44</div>
+    </div>
+    <div id="room-1" class="grid-layout">
+      <img
+        id="room-1-img"
+        src="./images/Temp Cards/23.png"
+        alt="2 of clubs"
+        class="draggable"
+        draggable="true"
+      />
+    </div>
+    <div id="room-2" class="grid-layout" draggable="true">
+      <img
+        id="room-2-img"
+        src="./images/Temp Cards/8.png"
+        alt="2 of clubs"
+        class="draggable"
+        draggable="true"
+      />
+    </div>
+    <div id="room-3" class="grid-layout" draggable="true">
+      <img
+        id="room-3-img"
+        src="./images/Temp Cards/13.png"
+        alt="2 of clubs"
+        class="draggable"
+        draggable="true"
+      />
+    </div>
+    <div id="room-4" class="grid-layout" draggable="true">
+      <img
+        id="room-4-img"
+        src="./images/Temp Cards/44.png"
+        alt="2 of clubs"
+        class="draggable"
+        draggable="true"
+      />
+    </div>
+    <div id="discard" class="grid-layout">
+      <img src="./images/Temp Cards/0.png" alt="Discard pile" />
+    </div>
+    <!-- Stats/Player Line -->
+    <div id="reset" class="grid-layout text-over-img">
+      <img
+        src="./images/RestartGametest.png"
+        class="coin-button-img"
+        alt="Restart Game"
+      />
+      <div id="reset-txt" class="coin-button-txt">Reset Game</div>
+    </div>
+    <div id="weapon" class="grid-layout">
+      <img
+        src="./images/Unarmed.png"
+        alt="weapon: unarmed"
+        class="drop-target"
+      />
+    </div>
+    <div id="health" class="grid-layout text-over-img">
+      <img
+        id="health-img"
+        src="./images/Health/20health.png"
+        alt="health: 20"
+      />
+      <div id="health-txt" class="centered-text">20/20</div>
+    </div>
+    <div id="flee" class="grid-layout text-over-img">
+      <img
+        id="flee-btn"
+        src="./images/FleecoinOntest.png"
+        class="coin-button-img"
+        alt="Flee Room"
+      />
+      <div id="flee-txt" class="coin-button-txt">Flee Room</div>
+    </div>
+    <!-- Footer -->
+    <div id="footer" class="grid-layout">
+      <p>
+        Original Game by: Zach Gage & Kurt Bieg <br />
+        Website & Art by: Charles Wehner-Ortega
+      </p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./index.js" charset="UTF-8"></script>
+  </body>
 </html>
