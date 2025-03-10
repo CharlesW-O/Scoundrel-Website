@@ -168,9 +168,22 @@ function removeClassValues () {
     document.querySelector("#room-4-img").classList.remove(room4);
 }
 
+//Checking if room needs refill, then refilling if yes (added onto every drag of a card below)
+function refillCheck() {
+    if (room1 == 0 && room2 == 0 && room3 == 0 || room2 == 0 && room3 == 0 && room4 == 0 || room1 == 0 && room3 == 0 && room4 == 0 || room1 == 0 && room2 == 0 && room4 == 0 ) {
+        refillRoom();
+        console.log("room refilled");
+    }
+    else {
+        console.log("no room refill needed");
+    }
+}
+
 //Weapon Array
+let defeatedMonsters = [];
 
 //Discard Array
+let discardPile = [];
 
 // Draggable Cards
 let dragged;
@@ -220,16 +233,16 @@ dropTarget.on("drop", (event) => {
     if (event.target.classList.contains("drop-target")) {
       event.target.classList.remove("drag-over");
     
-    /* replace target img with new img*/
+    /* replace imgs with new img*/
       event.target.src = dragged.src;
       dragged.src = "./images/Temp Cards/0.png";
+      refillCheck();
     }
   });
 
 
 
 //Flee Button
-
 
 $("#flee").on("click", function flee () {
     if (fledTwice == false && room1 > 0 && room2 > 0 && room3 > 0 && room4 > 0) {
