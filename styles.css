@@ -152,6 +152,18 @@ h1 {
     opacity: .5;
 }
 
-.drag-over {
+.drag-over-equip {
     border: 3px solid #FFD700;
+}
+
+.drag-over-heal {
+    border: 3px solid #279927;
+}
+
+.drag-over-fight {
+    border: 3px solid #a01919;
+}
+
+.layered-imgs {
+    position: relative;
 }

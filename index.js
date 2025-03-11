@@ -1,4 +1,11 @@
 
+//Weapon Array
+let weapon = -1;
+let defeatedMonsters = [];
+
+//Discard Array
+let discardPile = [];
+
 let fledTwice = false;
 
 //Resets game state - need to add to as keep coding (for health etc).//
@@ -15,9 +22,8 @@ function resetGame () {
     //Reset dungeon deck + rooms
     dungeonDeck = [];
     shuffleDeck();
-    clearRoomArrays();
-
-
+    clearAllArrays();
+    
     //Initial room layout
     fullyPopulateRoom();
 
@@ -34,7 +40,7 @@ function resetGame () {
 let dungeonDeck = [];
 
 function reloadDeck() {
-    for (i = 1; i <= 44; i++) {
+    for (let i = 1; i <= 44; i++) {
         dungeonDeck.push(i);
     }
 }
@@ -75,7 +81,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     switch (checkRoomOpenings()) {
         case 1:
             // partiallyPopulateRoom(2, 3, 4);
-            removeClassValues();
+            // removeClassValues();
             room2.push(dungeonDeck.shift());
             room3.push(dungeonDeck.shift());
             room4.push(dungeonDeck.shift());
@@ -83,7 +89,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
             
         case 2:
             // partiallyPopulateRoom(1, 3, 4);
-            removeClassValues();
+            // removeClassValues();
             room1.push(dungeonDeck.shift());
             room3.push(dungeonDeck.shift());
             room4.push(dungeonDeck.shift());
@@ -91,7 +97,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     
         case 3:
             // partiallyPopulateRoom(1, 2, 4);
-            removeClassValues();
+            // removeClassValues();
             room1.push(dungeonDeck.shift());
             room2.push(dungeonDeck.shift());
             room4.push(dungeonDeck.shift());
@@ -99,7 +105,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     
         case 4:
             // partiallyPopulateRoom(1, 2, 3);
-            removeClassValues();
+            // removeClassValues();
             room1.push(dungeonDeck.shift());
             room2.push(dungeonDeck.shift());
             room3.push(dungeonDeck.shift());
@@ -109,6 +115,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     }
 
     changeRoomImgs();
+    // addClassValues();
     updateDungeonCount();
     fledTwice = false;
     $("#flee-btn").attr("src", "./images/FleecoinOntest.png");
@@ -121,7 +128,7 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
 }
 
 function fullyPopulateRoom() {
-    removeClassValues();
+    // removeClassValues();
     
     room1.push(dungeonDeck.shift());
     room2.push(dungeonDeck.shift());
@@ -129,6 +136,7 @@ function fullyPopulateRoom() {
     room4.push(dungeonDeck.shift());
    
     changeRoomImgs();
+    // addClassValues();
     updateDungeonCount();
 
     console.log(room1);
@@ -146,23 +154,29 @@ function changeRoomImgs () {
     $("#room-3-img").attr("src","./images/Temp Cards/" + room3[0] + ".png" );
     $("#room-4-img").attr("src","./images/Temp Cards/" + room4[0] + ".png" );
 
-    document.querySelector("#room-1-img").classList.add(room1[0]);
-    document.querySelector("#room-2-img").classList.add(room2[0]);
-    document.querySelector("#room-3-img").classList.add(room3[0]);
-    document.querySelector("#room-4-img").classList.add(room4[0]);
-
     console.log(document.querySelector("#room-1-img"));
     console.log(document.querySelector("#room-2-img"));
     console.log(document.querySelector("#room-3-img"));
     console.log(document.querySelector("#room-4-img"));
 }
 
-function removeClassValues () {
-    document.querySelector("#room-1-img").classList.remove(room1[0]);
-    document.querySelector("#room-2-img").classList.remove(room2[0]);
-    document.querySelector("#room-3-img").classList.remove(room3[0]);
-    document.querySelector("#room-4-img").classList.remove(room4[0]);
-}
+// Functions for figuring out what img = what card and value
+
+// function addClassValues () {
+//     document.querySelector("#room-1-img").classList.add(room1[0]);
+//     document.querySelector("#room-2-img").classList.add(room2[0]);
+//     document.querySelector("#room-3-img").classList.add(room3[0]);
+//     document.querySelector("#room-4-img").classList.add(room4[0]);
+// }
+
+// function removeClassValues () {
+//     document.querySelector("#room-1-img").classList.remove(room1[0]);
+//     document.querySelector("#room-2-img").classList.remove(room2[0]);
+//     document.querySelector("#room-3-img").classList.remove(room3[0]);
+//     document.querySelector("#room-4-img").classList.remove(room4[0]);
+// }
+
+
 
 //Checking if room needs refill, then refilling if yes (added onto every drag of a card below)
 function refillCheck() {
@@ -175,13 +189,9 @@ function refillCheck() {
     }
 }
 
-//Weapon Array
-let defeatedMonsters = [];
-
-//Discard Array
-let discardPile = [];
-
 // Draggable Cards
+
+let roomStorage;
 let dragged;
 const dragCard = $(".draggable");
 const dropTarget = $(".drop-target")
@@ -194,11 +204,29 @@ dragCard.on("drag", (event) => {
 dragCard.on("dragstart", (event) => {
     /* store a ref. on the dragged elem */
     dragged = event.target;
-    event.target.classList.add("dragging");
+    dragged.classList.add("dragging");
+
+    /*Ties dragged card to the right # in the right room array */
+    if (dragged.id == "room-1-img") {
+        roomStorage = room1[0];
+        console.log("Room 1: card #" + roomStorage);
+    }
+    if (dragged.id == "room-2-img") {
+        roomStorage = room2[0];
+        console.log("Room 2: card #" + roomStorage);
+    }
+    if (dragged.id == "room-3-img") {
+        roomStorage = room3[0];
+        console.log("Room 3: card #" + roomStorage);
+    }
+    if (dragged.id == "room-4-img") {
+        roomStorage = room4[0];
+        console.log("Room 4: card #" + roomStorage);
+    }
   });
 
 dragCard.on("dragend", (event) => {
-    event.target.classList.remove("dragging");
+    dragged.classList.remove("dragging");
 });
 
     // Events fired on the drop targets
@@ -209,38 +237,122 @@ dropTarget.on("dragover", (event) => {
   },
   false,
 );
-
+    
 dropTarget.on("dragenter", (event) => {
-    if (event.target.classList.contains("drop-target")) {
-      event.target.classList.add("drag-over");
+    /* Filters which cards can be dragged where (ie hearts cant be "equiped" as weapons)*/
+    if (roomStorage > 0 && roomStorage <= 13) {
+        //REMOVE CLASSES THAT ALLOW DROPPING IN HEALTH & WEAPON & DISCARD
+        console.log("Monster: Clubs");
+    }
+    else if (roomStorage > 0 && roomStorage <= 22) {
+        console.log("Weapon: Diamonds");
+    }
+    else if (roomStorage > 0 && roomStorage <= 35) {
+        console.log("Monster: Spades");
+    }
+    else if (roomStorage > 0 && roomStorage <= 44) {
+        console.log("Healing: Hearts");
+    }
+
+    /* Filters border colors for visual clarity of result*/
+    if (event.target.classList.contains("equip-weapon")) {
+      event.target.classList.add("drag-over-equip");
+    } 
+    else if (event.target.classList.contains("heal-health")) {
+        event.target.classList.add("drag-over-heal");
+    }
+    else if (event.target.classList.contains("fight-monster")) {
+        event.target.classList.add("drag-over-fight");
     }
   });
 
 dropTarget.on("dragleave", (event) => {
-  if (event.target.classList.contains("drop-target")) {
-    event.target.classList.remove("drag-over");
-  }
+    if (event.target.classList.contains("equip-weapon")) {
+        event.target.classList.remove("drag-over-equip");
+    } 
+    else if (event.target.classList.contains("heal-health")) {
+          event.target.classList.remove("drag-over-heal");
+    }
+    else if (event.target.classList.contains("fight-monster")) {
+          event.target.classList.remove("drag-over-fight");
+    }
 });
 
 dropTarget.on("drop", (event) => {
     /* prevent default action (open as link for some elements) */
     event.preventDefault();
-    /* move dragged element to the selected drop target */
+
+    /* Game functionality based on type of card dragged and dropped */
     if (event.target.classList.contains("drop-target")) {
-      event.target.classList.remove("drag-over");
-    
-    /* replace imgs with new img*/
-      event.target.src = dragged.src;
-      dragged.src = "./images/Temp Cards/0.png";
-    
-    /*clear correct room array*/
-    clearDraggedRoom();
 
-    /* X's out the flee button*/
-    $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
+        /* Removes colored border on drop */
+        event.target.classList.remove("drag-over-equip");
+        event.target.classList.remove("drag-over-heal");
+        event.target.classList.remove("drag-over-fight");
 
-    /*check if room refill needed*/
-      refillCheck();
+
+        if (event.target.classList.contains("equip-weapon") && roomStorage > 13 && roomStorage <= 22) {
+
+            /* Discards prev weaopn (if there was one), then adds new Weapon to the "weapon" variable */
+            if (weapon == -1) {
+                weapon = roomStorage
+            }
+            else {
+                discardPile.push(weapon);
+                $("#discard-img").attr("src", "./images/Temp Cards/" + weapon + ".png")
+                weapon = roomStorage;
+            }
+
+            /*Replaces img if correct suit */
+            event.target.src = dragged.src;
+            dragged.src = "./images/Temp Cards/0.png";
+
+            /*clear correct room array*/
+            clearDraggedRoom();
+            
+            /* X's out the flee button*/
+            $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
+
+            /*check if room refill needed*/
+            refillCheck();
+        } 
+        if (event.target.classList.contains("heal-health") && roomStorage > 35 && roomStorage <= 44) {
+
+            /*Heals, then goes to discard */
+            //NO HEAL FUNCTION YET
+            $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
+            dragged.src = "./images/Temp Cards/0.png";
+            discardPile.push(roomStorage);
+
+            /*clear correct room array*/
+            clearDraggedRoom();
+            /* X's out the flee button*/
+            $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
+
+            /*check if room refill needed*/
+            refillCheck();
+        }
+        if (event.target.classList.contains("fight-monster") && roomStorage > 0 && roomStorage <= 13 ||event.target.classList.contains("fight-monster") && roomStorage > 22 && roomStorage <= 35) {
+
+            /*Replaces img if correct suit */
+            event.target.src = dragged.src;
+            dragged.src = "./images/Temp Cards/0.png";
+
+            /*clear correct room array*/
+            clearDraggedRoom();
+            /* X's out the flee button*/
+            $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
+
+            /*check if room refill needed*/
+            refillCheck();
+        }
+    
+        /* Does card's function (damage, heal, equip) */
+        /*NONE YET, CALL FUNCTIONS HERE */
+    
+        /* replace imgs with new img*/
+        // event.target.src = dragged.src;
+        // dragged.src = "./images/Temp Cards/0.png";
     }
   });
 
@@ -304,3 +416,224 @@ function clearRoomArrays() {
     room3 = [];
     room4 = [];
 }
+
+function clearAllArrays() {
+    clearRoomArrays();
+    weapon = -1
+    discardPile = [];
+    $("#discard-img").attr("src", "./images/Temp Cards/0.png")
+}
+
+
+
+
+
+
+
+// Tying classes to the img identification numbers (ie card #1 = "2" "clubs")
+//prob dont need? img src changes already. Track that.
+
+
+// function addCardClasses () {
+//     //room1
+//     tieNumbtoCardClass(document.querySelector("#room-1-img"));
+//     document.querySelector("#room-1-img").classList.add(cardClassAdd);
+//     //room2
+//     tieNumbtoCardClass(document.querySelector("#room-2-img"));
+//     document.querySelector("#room-2-img").classList.add(cardClassAdd);
+//     //room3
+//     tieNumbtoCardClass(document.querySelector("#room-3-img"));
+//     document.querySelector("#room-3-img").classList.add(cardClassAdd);
+//     //room4
+//     tieNumbtoCardClass(document.querySelector("#room-4-img"));
+//     document.querySelector("#room-4-img").classList.add(cardClassAdd);
+// }
+
+// function removeCardClasses () {
+//     //room1
+//     tieNumbtoCardClass(document.querySelector("#room-1-img"));
+//     document.querySelector("#room-1-img").classList.remove(cardClassAdd);
+//     //room2
+//     tieNumbtoCardClass(document.querySelector("#room-2-img"));
+//     document.querySelector("#room-2-img").classList.remove(cardClassAdd);
+//     //room3
+//     tieNumbtoCardClass(document.querySelector("#room-3-img"));
+//     document.querySelector("#room-3-img").classList.remove(cardClassAdd);
+//     //room4
+//     tieNumbtoCardClass(document.querySelector("#room-4-img"));
+//     document.querySelector("#room-4-img").classList.remove(cardClassAdd);
+// }
+
+// function whichCard(room1t4) {
+//     if (room1t4 == "room1") {
+//         return room1[0];
+//     }
+//     else if (room1t4 = "room2") {
+//         return room2[0];
+//     }
+//     else if (room1t4 = "room3") {
+//         return room3[0];
+//     }
+//     else if (room1t4 = "room4") {
+//         return room4[0];
+//     }
+// }
+
+// let cardClassAdd;
+// function clubValues(number) {
+//     if (number = 1) {
+//         cardClassAdd = ("two clubs")
+//     }
+//     if (number = 2) {
+//         cardClassAdd = ("three clubs")
+//     }
+//     if (number = 3) {
+//         cardClassAdd = ("four clubs")
+//     }
+//     if (number = 4) {
+//         cardClassAdd = ("five clubs")
+//     }
+// }
+
+// function tieNumbtoCardClass(room) {
+//     for (let i = 1; i <= 13; i++ ) {
+//         cardClassAdd = ("clubs")
+//     }
+    // if (room.classList[1] == 1) {
+    //     cardClassAdd = ("two clubs");
+    // }
+    // if (room.classList[1] == 2) {
+    //     cardClassAdd = ("three clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 4) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 5) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 6) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 7) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 8) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 9) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 10) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 11 {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 12) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 13) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 14) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 15) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 16) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // if (room.classList[1] == 3) {
+    //     cardClassAdd = ("four clubs");
+    // }
+    // else {
+    //     console.log("No accepted targets for tieNumbtoCardClass");
+    // }
+// }
+
+

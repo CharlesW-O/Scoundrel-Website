@@ -60,7 +60,12 @@
       />
     </div>
     <div id="discard" class="grid-layout">
-      <img src="./images/Temp Cards/0.png" alt="Discard pile" />
+      <img
+        id="discard-img"
+        src="./images/Temp Cards/0.png"
+        alt="Discard pile"
+        class="drop-target discard-pile"
+      />
     </div>
     <!-- Stats/Player Line -->
     <div id="reset" class="grid-layout text-over-img">
@@ -72,17 +77,28 @@
       <div id="reset-txt" class="coin-button-txt">Reset Game</div>
     </div>
     <div id="weapon" class="grid-layout">
-      <img
-        src="./images/Unarmed.png"
-        alt="weapon: unarmed"
-        class="drop-target"
-      />
+      <div class="layered-imgs">
+        <img
+          id="weapon-img"
+          src="./images/Unarmed.png"
+          alt="weapon: unarmed"
+          class="drop-target equip-weapon"
+        />
+        <img
+          id="fight-img"
+          src="./images/Temp Cards/0.png"
+          alt="No monster fought with this weapon yet."
+          style="position: absolute; top: 20%; right: 0px; z-index: 1"
+          class="drop-target fight-monster"
+        />
+      </div>
     </div>
     <div id="health" class="grid-layout text-over-img">
       <img
         id="health-img"
         src="./images/Health/20health.png"
         alt="health: 20"
+        class="drop-target heal-health fight-monster"
       />
       <div id="health-txt" class="centered-text">20/20</div>
     </div>
