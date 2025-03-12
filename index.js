@@ -19,7 +19,9 @@ $("#reset").on("click",function () {
 })
 
 function resetGame () {
-    //Reset dungeon deck + rooms
+    //Reset dungeon deck + rooms + health
+    health = 20;
+    updateHealth();
     dungeonDeck = [];
     shuffleDeck();
     clearAllArrays();
@@ -240,29 +242,21 @@ dropTarget.on("dragover", (event) => {
     
 dropTarget.on("dragenter", (event) => {
     /* Filters which cards can be dragged where (ie hearts cant be "equiped" as weapons)*/
-    if (roomStorage > 0 && roomStorage <= 13) {
-        //REMOVE CLASSES THAT ALLOW DROPPING IN HEALTH & WEAPON & DISCARD
+    if (roomStorage > 0 && roomStorage <= 13 && event.target.classList.contains("fight-monster")) {
+        event.target.classList.add("drag-over-fight");
         console.log("Monster: Clubs");
     }
-    else if (roomStorage > 0 && roomStorage <= 22) {
+    if (roomStorage > 13 && roomStorage <= 22 && event.target.classList.contains("equip-weapon")) {
+        event.target.classList.add("drag-over-equip");
         console.log("Weapon: Diamonds");
     }
-    else if (roomStorage > 0 && roomStorage <= 35) {
+    if (roomStorage > 22 && roomStorage <= 35 && event.target.classList.contains("fight-monster")) {
+        event.target.classList.add("drag-over-fight");
         console.log("Monster: Spades");
     }
-    else if (roomStorage > 0 && roomStorage <= 44) {
-        console.log("Healing: Hearts");
-    }
-
-    /* Filters border colors for visual clarity of result*/
-    if (event.target.classList.contains("equip-weapon")) {
-      event.target.classList.add("drag-over-equip");
-    } 
-    else if (event.target.classList.contains("heal-health")) {
+    if (roomStorage > 35 && roomStorage <= 44 && event.target.classList.contains("heal-health")) {
         event.target.classList.add("drag-over-heal");
-    }
-    else if (event.target.classList.contains("fight-monster")) {
-        event.target.classList.add("drag-over-fight");
+        console.log("Healing: Hearts");
     }
   });
 
@@ -270,10 +264,10 @@ dropTarget.on("dragleave", (event) => {
     if (event.target.classList.contains("equip-weapon")) {
         event.target.classList.remove("drag-over-equip");
     } 
-    else if (event.target.classList.contains("heal-health")) {
+    if (event.target.classList.contains("heal-health")) {
           event.target.classList.remove("drag-over-heal");
     }
-    else if (event.target.classList.contains("fight-monster")) {
+    if (event.target.classList.contains("fight-monster")) {
           event.target.classList.remove("drag-over-fight");
     }
 });
@@ -290,69 +284,66 @@ dropTarget.on("drop", (event) => {
         event.target.classList.remove("drag-over-heal");
         event.target.classList.remove("drag-over-fight");
 
-
+        //DIAMONDS FUNCTIONALITY
         if (event.target.classList.contains("equip-weapon") && roomStorage > 13 && roomStorage <= 22) {
 
-            /* Discards prev weaopn (if there was one), then adds new Weapon to the "weapon" variable */
+            /* Discards prev weaopn (if there was one) and monsters, then adds new Weapon to the "weapon" variable */
             if (weapon == -1) {
                 weapon = roomStorage
+                assignWeaponDefense();
             }
             else {
                 discardPile.push(weapon);
                 $("#discard-img").attr("src", "./images/Temp Cards/" + weapon + ".png")
                 weapon = roomStorage;
+                assignWeaponDefense();
             }
 
-            /*Replaces img if correct suit */
+            /*Replaces img*/
             event.target.src = dragged.src;
             dragged.src = "./images/Temp Cards/0.png";
 
-            /*clear correct room array*/
+            /*Cleanup*/
             clearDraggedRoom();
-            
-            /* X's out the flee button*/
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
-
-            /*check if room refill needed*/
             refillCheck();
         } 
+        //HEARTS FUNCTIONALITY
         if (event.target.classList.contains("heal-health") && roomStorage > 35 && roomStorage <= 44) {
 
             /*Heals, then goes to discard */
-            //NO HEAL FUNCTION YET
+            heal();
             $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
             dragged.src = "./images/Temp Cards/0.png";
             discardPile.push(roomStorage);
 
-            /*clear correct room array*/
+            /*Cleanup*/
             clearDraggedRoom();
-            /* X's out the flee button*/
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
-
-            /*check if room refill needed*/
             refillCheck();
         }
+        //CLUBS/SPADES FUNCTIONALITY
         if (event.target.classList.contains("fight-monster") && roomStorage > 0 && roomStorage <= 13 ||event.target.classList.contains("fight-monster") && roomStorage > 22 && roomStorage <= 35) {
-
-            /*Replaces img if correct suit */
-            event.target.src = dragged.src;
+            if (event.target.classList.contains("heal-health")) {
+                /*does unarmed damage, then discards*/
+                unarmedDamage();
+                $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
+                discardPile.push(roomStorage);
+            }
+            else {
+                /*does weapon damage or unarmed if none, then added to deafeatedMonsters array*/
+                weaponDamage();
+                event.target.src = dragged.src;
+                defeatedMonsters.push(roomStorage);
+            }
+             
             dragged.src = "./images/Temp Cards/0.png";
 
-            /*clear correct room array*/
+            /*Cleanup*/
             clearDraggedRoom();
-            /* X's out the flee button*/
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
-
-            /*check if room refill needed*/
             refillCheck();
         }
-    
-        /* Does card's function (damage, heal, equip) */
-        /*NONE YET, CALL FUNCTIONS HERE */
-    
-        /* replace imgs with new img*/
-        // event.target.src = dragged.src;
-        // dragged.src = "./images/Temp Cards/0.png";
     }
   });
 
@@ -421,7 +412,357 @@ function clearAllArrays() {
     clearRoomArrays();
     weapon = -1
     discardPile = [];
-    $("#discard-img").attr("src", "./images/Temp Cards/0.png")
+    $("#discard-img").attr("src", "./images/Temp Cards/0.png");
+    $("#weapon-img").attr("src", "./images/Unarmed.png");
+    $("#fight-img").attr("src", "./images/Unarmed.png");
+}
+
+// Health functionality
+let health = 20;
+
+function updateHealth () {
+
+    $("#health-txt").text(health + "/20");
+
+    if (health > 18) {
+        $("#health-img").attr("src", "./images/Health/20health.png");
+    }
+    else if (health > 16 ) {
+        $("#health-img").attr("src", "./images/Health/18health.png");
+    }
+    else if (health > 14 ) {
+        $("#health-img").attr("src", "./images/Health/16health.png");
+    }
+    else if (health > 12 ) {
+        $("#health-img").attr("src", "./images/Health/14health.png");
+    }
+    else if (health > 10 ) {
+        $("#health-img").attr("src", "./images/Health/12health.png");
+    }
+    else if (health > 8 ) {
+        $("#health-img").attr("src", "./images/Health/10health.png");
+    }
+    else if (health > 6 ) {
+        $("#health-img").attr("src", "./images/Health/8health.png");
+    }
+    else if (health > 4 ) {
+        $("#health-img").attr("src", "./images/Health/6health.png");
+    }
+    else if (health > 2 ) {
+        $("#health-img").attr("src", "./images/Health/4health.png");
+    }
+    else if (health > 0 ) {
+        $("#health-img").attr("src", "./images/Health/2health.png");
+    }
+    else {
+        $("#health-img").attr("src", "./images/Health/0health.png");
+        alert("Game Over, Resetting Game");
+        resetGame();
+    }
+}
+
+function heal() {
+    switch (roomStorage) {
+        case 44:
+            health = health + 10;
+            break;
+
+        case 43:
+            health = health + 9;
+            break;
+
+        case 42:
+            health = health + 8;
+            break;
+
+        case 41:
+            health = health + 7;
+            break;
+
+        case 40:
+            health = health + 6;
+            break;
+
+        case 39:
+            health = health + 5;
+            break;
+
+        case 38:
+            health = health + 4;
+            break;
+
+        case 37:
+            health = health + 3;
+            break;
+
+        case 36:
+            health = health + 2;
+            break;
+
+        default:
+            console.log("heal function broken");
+    }
+
+    if (health > 20) {
+        health = 20;
+    }
+
+    updateHealth();
+}
+
+function unarmedDamage() {
+    switch (roomStorage) {
+        case 13:
+        case 35:
+            health = health - 14;
+            break;
+
+        case 12:
+        case 34:
+            health = health - 13;
+            break;
+
+        case 11:
+        case 33:
+            health = health - 12;
+            break;
+
+        case 10:
+        case 32:
+            health = health - 11;
+            break;
+        
+        case 9:
+        case 31:
+            health = health - 10;
+            break;
+
+        case 8:
+        case 30:
+            health = health - 9;
+            break;
+
+        case 7:
+        case 29:
+            health = health - 8;
+            break;
+        
+        case 6:
+        case 28:
+            health = health - 7;
+            break;
+        
+        case 5:
+        case 27:
+            health = health - 6;
+            break;
+        
+        case 4:
+        case 26:
+            health = health - 5;
+            break;
+
+        case 3:
+        case 25:
+            health = health - 4;
+            break;
+        
+        case 2:
+        case 24:
+            health = health - 3;
+            break;
+
+        case 1:
+        case 23:
+            health = health - 2;
+            break;
+
+        default:
+            console.log("unarmedDamage func broken");
+    }
+
+    updateHealth();
+}
+
+function weaponDamage() {
+    switch (roomStorage) {
+        case 13:
+        case 35:
+            if (weaponDefense > 14) {
+                health = health - 0;
+            }
+            else {
+                health = health - (14 - weaponDefense);
+            }
+            
+            break;
+
+        case 12:
+        case 34:
+            if (weaponDefense > 13) {
+                health = health - 0;
+            }
+            else {
+                health = health - (13 - weaponDefense);
+            }
+            break;
+
+        case 11:
+        case 33:
+            if (weaponDefense > 12) {
+                health = health - 0;
+            }
+            else {
+                health = health - (12 - weaponDefense);
+            }
+            break;
+
+        case 10:
+        case 32:
+            if (weaponDefense > 11) {
+                health = health - 0;
+            }
+            else {
+                health = health - (11 - weaponDefense);
+            }
+            break;
+        
+        case 9:
+        case 31:
+            if (weaponDefense > 10) {
+                health = health - 0;
+            }
+            else {
+                health = health - (10 - weaponDefense);
+            }
+            break;
+
+        case 8:
+        case 30:
+            if (weaponDefense > 9) {
+                health = health - 0;
+            }
+            else {
+                health = health - (9 - weaponDefense);
+            }
+            break;
+
+        case 7:
+        case 29:
+            if (weaponDefense > 8) {
+                health = health - 0;
+            }
+            else {
+                health = health - (8 - weaponDefense);
+            }
+            break;
+        
+        case 6:
+        case 28:
+            if (weaponDefense > 7) {
+                health = health - 0;
+            }
+            else {
+                health = health - (7 - weaponDefense);
+            }
+            break;
+        
+        case 5:
+        case 27:
+            if (weaponDefense > 6) {
+                health = health - 0;
+            }
+            else {
+                health = health - (6 - weaponDefense);
+            }
+            break;
+        
+        case 4:
+        case 26:
+            if (weaponDefense > 5) {
+                health = health - 0;
+            }
+            else {
+                health = health - (5 - weaponDefense);
+            }
+            break;
+
+        case 3:
+        case 25:
+            if (weaponDefense > 4) {
+                health = health - 0;
+            }
+            else {
+                health = health - (4 - weaponDefense);
+            }
+            break;
+        
+        case 2:
+        case 24:
+            if (weaponDefense > 3) {
+                health = health - 0;
+            }
+            else {
+                health = health - (3 - weaponDefense);
+            }
+            break;
+
+        case 1:
+        case 23:
+            if (weaponDefense > 2) {
+                health = health - 0;
+            }
+            else {
+                health = health - (2 - weaponDefense);
+            }
+            break;
+
+        default:
+            console.log("unarmedDamage func broken");
+    }
+
+    updateHealth();
+}
+
+let weaponDefense = 0;
+function assignWeaponDefense () {
+    switch(weapon) {
+        case 22:
+            weaponDefense = 10;
+            break;
+        
+        case 21:
+            weaponDefense = 9;
+            break;
+
+        case 20: 
+            weaponDefense = 8;
+            break;
+
+        case 19:
+            weaponDefense = 7;
+            break;
+
+        case 18:
+            weaponDefense = 6;
+            break;
+
+        case 17:
+            weaponDefense = 5;
+            break;
+
+        case 16:
+            weaponDefense = 4;
+            break;
+
+        case 15:
+            weaponDefense = 3;
+            break;
+        
+        case 14:
+            weaponDefense = 2;
+            break;
+    }
 }
 
 
