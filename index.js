@@ -353,6 +353,7 @@ dropTarget.on("dragleave", (event) => {
 });
 
 let killCount = 0;
+let healedYet = false;
 
 dropTarget.on("drop", (event) => {
     /* prevent default action (open as link for some elements) */
@@ -401,16 +402,25 @@ dropTarget.on("drop", (event) => {
         //HEARTS FUNCTIONALITY
         if (event.target.classList.contains("heal-health") && roomStorage > 35 && roomStorage <= 44) {
 
-            /*Heals, then goes to discard */
-            heal();
-            $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
-            dragged.src = "./images/Temp Cards/0.png";
-            discardPile.push(roomStorage);
-
+            if (healedYet == false) {
+                /*Heals, then goes to discard */
+                heal();
+                $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
+                dragged.src = "./images/Temp Cards/0.png";
+                discardPile.push(roomStorage);
+                healedYet = true;
+            }
+            else {
+                alert("You already healed this turn. Discarding instead.")
+                $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
+                dragged.src = "./images/Temp Cards/0.png";
+                discardPile.push(roomStorage);
+            }
             /*Cleanup*/
             clearDraggedRoom();
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
             refillCheck();
+
         }
         //CLUBS/SPADES FUNCTIONALITY
         if (event.target.classList.contains("fight-monster") && roomStorage > 0 && roomStorage <= 13 ||event.target.classList.contains("fight-monster") && roomStorage > 22 && roomStorage <= 35) {
@@ -481,6 +491,17 @@ dropTarget.on("drop", (event) => {
             event.target.src = dragged.src;
             dragged.src = "./images/Unarmed.png";
 
+            /*Cleanup*/
+            clearDraggedRoom();
+            $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
+            refillCheck();
+        }
+        //DISCARD HEARTS FROM ROOM
+        if (event.target.classList.contains("discard-pile") && roomStorage > 35 && roomStorage <= 44) {
+            $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
+            discardPile.push(roomStorage);
+            dragged.src = "./images/Temp Cards/0.png";
+            
             /*Cleanup*/
             clearDraggedRoom();
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
