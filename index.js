@@ -383,7 +383,7 @@ dropTarget.on("drop", (event) => {
                 killCount = 0;
                 discardPile.push(weapon);
                 $("#discard-img").attr("src", "./images/Temp Cards/" + weapon + ".png");
-                $("#fight-img").attr("src", "./images/Unarmed.png");
+                $("#fight-img").attr("src", "./images/Weaponfight.png");
                 weapon = roomStorage;
                 assignWeaponDefense();
                 monsterValue = 100;
@@ -473,7 +473,7 @@ dropTarget.on("drop", (event) => {
             }
             killCount = 0;
             discardPile.push(weapon);
-            $("#fight-img").attr("src", "./images/Unarmed.png");
+            $("#fight-img").attr("src", "./images/Weaponfight.png");
             weapon = roomStorage;
             assignWeaponDefense();
             weapon = -1;
@@ -560,7 +560,7 @@ function clearAllArrays() {
     monsterValueNew = 0;
     $("#discard-img").attr("src", "./images/Temp Cards/0.png");
     $("#weapon-img").attr("src", "./images/Unarmed.png");
-    $("#fight-img").attr("src", "./images/Unarmed.png");
+    $("#fight-img").attr("src", "./images/Weaponfight.png");
 }
 
 // Health functionality

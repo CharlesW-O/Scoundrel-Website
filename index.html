@@ -76,23 +76,23 @@
       />
       <div id="reset-txt" class="coin-button-txt">Reset Game</div>
     </div>
-    <div id="weapon" class="grid-layout">
-      <div class="layered-imgs">
-        <img
-          id="weapon-img"
-          src="./images/Unarmed.png"
-          alt="weapon: unarmed"
-          class="drop-target equip-weapon draggable discardable-weapon"
-        />
-        <img
-          id="fight-img"
-          src="./images/Unarmed.png"
-          alt="No monster fought with this weapon yet."
-          style="position: absolute; top: 20%; right: 0px; z-index: 1"
-          class="drop-target fight-monster"
-        />
-      </div>
+    <div id="fight">
+      <img
+        id="fight-img"
+        src="./images/Weaponfight.png"
+        alt="No monster fought with this weapon yet."
+        class="drop-target fight-monster"
+      />
     </div>
+    <div id="weapon" class="grid-layout">
+      <img
+        id="weapon-img"
+        src="./images/Unarmed.png"
+        alt="weapon: unarmed"
+        class="drop-target equip-weapon draggable discardable-weapon"
+      />
+    </div>
+
     <div id="health" class="grid-layout text-over-img">
       <img
         id="health-img"
@@ -196,9 +196,11 @@
           taking the full damage. It is then discarded. If you fight a monster
           with your weapon by dragging it onto your weapon, it will deal damage
           equal to it's power - your weapon's power. NOTE: in this case, keep
-          the monster on top of the weapon. Once used on a monster, a weapon can
-          only be used against a monster with LESS power than the one most
-          recently defeated.
+          the monster to the left of the weapon. Once used on a monster, a
+          weapon can only be used against a monster with LESS power than the one
+          most recently defeated. Keeping it on the board helps keep track of
+          this rule. When you discard the weapon, discard the monsters killed
+          with it too.
         </p>
         <hr />
         <p class="modal-txt">Website Tips</p>

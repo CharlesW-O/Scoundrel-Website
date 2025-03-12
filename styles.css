@@ -6,7 +6,7 @@ body {
     background-size: cover;
     display: grid;
     grid-template-rows: 10rem 1fr 1fr 5rem;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 2fr;
+    grid-template-columns: 4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 4fr;
     gap: 1rem;
     font-family: "Pixelify Sans", sans-serif;
 }
@@ -31,7 +31,7 @@ div {
 }
 
 #header {
-    grid-area: 1 / 1 / 2 / 7;
+    grid-area: 1 / 1 / 2 / 11;
 }
 
 /* Room Line */
@@ -42,23 +42,23 @@ div {
 }
 
 #room-1 {
-    grid-area: 2 / 2 / 3 / 3;
+    grid-area: 2 / 2 / 3 / 4;
 }
 
 #room-2 {
-    grid-area: 2 / 3 / 3 / 4;
+    grid-area: 2 / 4 / 3 / 6;
 }
 
 #room-3 {
-    grid-area: 2 / 4 / 3 / 5;
+    grid-area: 2 / 6 / 3 / 8;
 }
 
 #room-4 {
-    grid-area: 2 / 5 / 3 / 6;
+    grid-area: 2 / 8 / 3 / 10;
 }
 
 #discard {
-    grid-area: 2 / 6 / 3 / 7;
+    grid-area: 2 / 10 / 3 / 11;
     width: 50%;
 }
 
@@ -74,12 +74,15 @@ div {
     cursor: pointer;
 }
 
+#fight {
+    grid-area: 3 / 3 / 4 / 5;
+}
 #weapon {
-    grid-area: 3 / 3 / 4 / 4;
+    grid-area: 3 / 5 / 4 / 7;
 }
 
 #health {
-    grid-area: 3 / 4 / 4 / 5;
+    grid-area: 3 / 7 / 4 / 9;
 }
 
 #health-txt {
@@ -87,7 +90,7 @@ div {
 }
 
 #flee {
-    grid-area: 3 / 6 / 4 / 7;
+    grid-area: 3 / 10 / 4 / 11;
     /* background-color: rgb(97, 95, 95);
     border-radius: 20%; */
 }
@@ -97,7 +100,7 @@ div {
 }
 
 #footer-right {
-    grid-area: 4 / 6 / 5 /7;
+    grid-area: 4 / 10 / 5 / 11;
 }
 
 p {
