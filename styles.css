@@ -70,9 +70,8 @@ div {
     border-radius: 20%; */
 }
 
-#reset:hover, #flee:hover {
+#reset:hover, #flee:hover, .room:hover, .help:hover {
     cursor: pointer;
-    /* background-color: rgb(110, 109, 109); */
 }
 
 #weapon {
@@ -221,6 +220,7 @@ h1 {
     text-decoration: none;
     cursor: pointer;
   }
+
   hr {
     border-color: black;
   }
