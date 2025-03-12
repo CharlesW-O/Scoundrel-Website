@@ -201,8 +201,8 @@ function refillRoom () { //need to figure out dragging cards triggering this bef
     }
 
     changeRoomImgs();
-    // addClassValues();
     updateDungeonCount();
+    healedYet = false;
     fledTwice = false;
     $("#flee-btn").attr("src", "./images/FleecoinOntest.png");
 
@@ -501,7 +501,7 @@ dropTarget.on("drop", (event) => {
             $("#discard-img").attr("src", "./images/Temp Cards/" + roomStorage + ".png");
             discardPile.push(roomStorage);
             dragged.src = "./images/Temp Cards/0.png";
-            
+
             /*Cleanup*/
             clearDraggedRoom();
             $("#flee-btn").attr("src", "./images/FleecoinOfftest.png");
@@ -579,6 +579,7 @@ function clearAllArrays() {
     monsterValue = 100;
     monsterValueOld = 0;
     monsterValueNew = 0;
+    healedYet = false;
     $("#discard-img").attr("src", "./images/Temp Cards/0.png");
     $("#weapon-img").attr("src", "./images/Unarmed.png");
     $("#fight-img").attr("src", "./images/Weaponfight.png");
