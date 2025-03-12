@@ -82,7 +82,7 @@
           id="weapon-img"
           src="./images/Unarmed.png"
           alt="weapon: unarmed"
-          class="drop-target equip-weapon"
+          class="drop-target equip-weapon draggable discardable-weapon"
         />
         <img
           id="fight-img"
@@ -112,12 +112,97 @@
       <div id="flee-txt" class="coin-button-txt">Flee Room</div>
     </div>
     <!-- Footer -->
-    <div id="footer" class="grid-layout">
+    <div id="footer-left" class="grid-layout">
       <p>
-        Original Game by: Zach Gage & Kurt Bieg <br />
-        Website & Art by: Charles Wehner-Ortega
+        Original Game by: Zach Gage & Kurt Bieg / Website & Art by: Charles
+        Wehner-Ortega
       </p>
     </div>
+    <div id="footer-right">
+      <p class="help">?</p>
+    </div>
+
+    <!-- Modal Menu/Help Menu -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>How to Play Scoundrel</h2>
+        <hr />
+        <p class="modal-txt">Set-up and goal:</p>
+        <p class="modal-txt indent">
+          Scoundrel is played with a standard 52 card deck with the all red
+          Aces, Kings, Queens, and Jacks removed (end result of a 44 card deck).
+        </p>
+        <p class="modal-txt indent">
+          Your health starts at 20. It can never go higher than 20. If it ever
+          gets to 0, you lose.
+        </p>
+        <p class="modal-txt indent">
+          The top four cards are placed in front of you. These are collectively
+          known as a "room", which you will have to clear (described more in the
+          rules section).
+        </p>
+        <p class="modal-txt indent">
+          To win, get through the entire deck and clear out the final room
+          entirely.
+        </p>
+        <hr />
+        <p class="modal-txt">Rules</p>
+        <p class="modal-txt indent">
+          The 26 black cards (clubs and spades) are monsters. They deal damage
+          equal to their value (2-10, Jack is 11, Queen is 12, King is 13, and
+          Ace is 14).
+        </p>
+        <p class="modal-txt indent">
+          The 9 diamonds are weapons. These block an amount of monster damage
+          equal to their value once equiped. Equiped diamonds are placed below
+          the four room cards. Once picked up, diamonds MUST be equiped, even if
+          you have to discard your currently equiped daimond to do so.
+        </p>
+        <p class="modal-txt indent">
+          The 9 hearts are health potions, restoring health equal to their
+          value. You can only use one health potion per turn, if there are more
+          in the room, they must be discarded instead. You can never go above 20
+          health.
+        </p>
+        <hr />
+        <p class="modal-txt">Gameplay</p>
+        <p class="modal-txt indent">
+          At the start of each turn, flip cards off the top of the deck until
+          there are four infront of you. This is a "room" in the dungeon.
+        </p>
+        <p class="modal-txt indent">
+          You can flee from a room if you haven't interacted with it yet. If you
+          do, those four cards are placed on the bottom of the deck, aka, the
+          dungeon. You can flee as much as you want, but never twice in a row.
+        </p>
+        <p class="modal-txt indent">
+          If you decide to face a room, you need to clear 3 of the 4 cards it
+          contains in order to move onto the next turn/room.
+        </p>
+        <p class="modal-txt indent">
+          If you chose a diamond, you MUST equip it (even if doing so discards
+          your currently equiped weapon).
+        </p>
+        <p class="modal-txt indent">
+          If you chose a heart, dragging it to your health, you heal for that
+          much. You can only heal ONCE per turn. Other hearts need to be
+          discarded if not kept as the last card of the four card room.
+        </p>
+        <p class="modal-txt indent">
+          If you chose a clubs or spades, you fight the monster. If you drag it
+          to your health (or have no weapon equiped) you will fight it unarmed,
+          taking the full damage. It is then discarded. If you fight a monster
+          with your weapon by dragging it onto your weapon, it will deal damage
+          equal to it's power - your weapon's power. NOTE: in this case, keep
+          the monster on top of the weapon. Once used on a monster, a weapon can
+          only be used against a monster with LESS power than the one most
+          recently defeated.
+        </p>
+      </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./index.js" charset="UTF-8"></script>
   </body>
