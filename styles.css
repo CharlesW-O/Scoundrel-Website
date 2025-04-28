@@ -86,7 +86,7 @@ div {
 }
 
 #health-txt {
-    font-size: 1.5rem;
+    font-size: 1.5vw;
 }
 
 #flee {
@@ -106,14 +106,14 @@ div {
 p {
     text-align: center;
     color: white;
-    padding: 1rem;
+    padding: 1vw;
 }
 
-/* Styling */
+/* General Styling */
 
 h1 {
     color: white;
-    font-size: 5rem;
+    font-size: 5vw;
     font-weight: 800;
 }
 
@@ -131,7 +131,7 @@ h1 {
 }
 
 .coin-button-txt {
-    font-size: 1.4rem;
+    font-size: 1.7vw;
     color: black;
     position: absolute;
     top: 50%;
@@ -140,7 +140,7 @@ h1 {
 }
 
 .help {
-    font-size: 4rem;
+    font-size: 5vw;
     text-align: right;
     padding: 0rem;
     margin: .5rem;
@@ -150,7 +150,7 @@ h1 {
 
 #deck-txt {
     visibility: hidden;
-    font-size: 2rem;
+    font-size: 2vw;
     color: gold;
 }
 

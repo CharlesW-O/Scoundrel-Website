@@ -249,7 +249,7 @@ function changeRoomImgs () {
 //Checking if room needs refill, then refilling if yes (added onto every drag of a card below)
 function refillCheck() {
     if (dungeonDeck.length == 0 && room1[0] == 0 && room2[0] == 0 && room3[0] == 0 && room4[0] == 0) {
-        alert("Congratulations, you won! Game will now reset.");
+        alert("Congratulations, you won! Game will now reset. In the future, we may implement a win/loss tracker.");
         resetGame();
     }
     else if (room1.length == 0 && room2.length == 0 && room3.length == 0 || room2.length == 0 && room3.length == 0 && room4.length == 0 || room1.length == 0 && room3.length == 0 && room4.length == 0 || room1.length == 0 && room2.length == 0 && room4.length == 0 ) {
@@ -512,19 +512,37 @@ dropTarget.on("drop", (event) => {
 
 //Function to clear correct room one at a time as dragged away
 function clearDraggedRoom() {
-    if (dragged.id == "room-1-img") {
+    if (dungeonDeck.length == 0) {
+        if (dragged.id == "room-1-img") {
+            room1 = [0];
+            console.log("zero'd room 1");
+        }
+        else if (dragged.id == "room-2-img") {
+            room2 = [0];
+            console.log("zero'd room 2");
+        }
+        else if (dragged.id == "room-3-img") {
+            room3 = [0];
+            console.log("zero'd room 3");
+        }
+        else if (dragged.id == "room-4-img") {
+            room4 = [0];
+            console.log("zero'd room 4");
+        }
+    }
+    else if (dragged.id == "room-1-img") {
         room1 = [];
         console.log("cleared room 1");
     }
-    if (dragged.id == "room-2-img") {
+    else if (dragged.id == "room-2-img") {
         room2 = [];
         console.log("cleared room 2");
     }
-    if (dragged.id == "room-3-img") {
+    else if (dragged.id == "room-3-img") {
         room3 = [];
         console.log("cleared room 3");
     }
-    if (dragged.id == "room-4-img") {
+    else if (dragged.id == "room-4-img") {
         room4 = [];
         console.log("cleared room 4");
     }
